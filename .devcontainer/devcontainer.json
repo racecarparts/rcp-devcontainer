@@ -1,0 +1,31 @@
+{
+  "name": "rcp-devcontainer",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.formatOnSave": true,
+        "python.pythonPath": "/root/.pyenv/shims/python3",
+        "python.defaultInterpreterPath": "/root/.pyenv/versions/${PYTHON_VERSION}/bin/python",
+        "terminal.integrated.fontFamily": "MesloLGS NF"
+      },
+      "extensions": [
+        "eamodio.gitlens",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.debugger",
+        "golang.go",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "forwardPorts": [],
+  "postCreateCommand": "chmod +x /tmp/post-create-scripts/*.sh && for script in /tmp/post-create-scripts/*.sh; do echo Running $script; $script; done",
+  "remoteUser": "root"
+}
