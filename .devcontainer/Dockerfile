@@ -5,7 +5,6 @@ ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
 ARG GO_VERSION
 ARG PYTHON_VERSION
-ARG NODE_VERSION
 ARG ARCHITECTURE
 
 # Set environment variables
@@ -13,6 +12,8 @@ ENV GIT_USER_NAME=${GIT_USER_NAME}
 ENV GIT_USER_EMAIL=${GIT_USER_EMAIL}
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories
 
 # Install base packages and font dependencies
 RUN apk update && apk add --no-cache \
@@ -39,7 +40,9 @@ RUN apk update && apk add --no-cache \
     sqlite-dev \
     linux-headers \
     xz-dev \
-    tk-dev
+    tk-dev \
+    nodejs \
+    npm
 
 RUN git config --global user.name "$GIT_USER_NAME" \
     && git config --global user.email "$GIT_USER_EMAIL" 
@@ -77,11 +80,22 @@ RUN mkdir -p /usr/share/fonts/source-code-pro && \
     "https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" && \
     fc-cache -f -v
 
-# Set up Powerlevel10k as the Zsh theme
-COPY .devcontainer/p10k-cfg/.p10k.zsh /root/.p10k.zsh
+# Install Oh My Zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+# Install Powerlevel10k theme
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
+
+# Install Zsh plugins
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+# Configure Zsh with Powerlevel10k theme and plugins
+COPY .devcontainer/p10k-cfg/.p10k.zsh /root/.p10k.zsh
 RUN echo "source /root/powerlevel10k/powerlevel10k.zsh-theme" >> /root/.zshrc && \
-    [ -f /root/.p10k.zsh ] && echo "source /root/.p10k.zsh" >> /root/.zshrc || true
+    echo "[ -f /root/.p10k.zsh ] && source /root/.p10k.zsh" >> /root/.zshrc && \
+    echo "plugins=(git zsh-autosuggestions zsh-syntax-highlighting)" >> /root/.zshrc && \
+    echo "source /root/.oh-my-zsh/oh-my-zsh.sh" >> /root/.zshrc
 
 # Set the working directory
 WORKDIR /workspace
