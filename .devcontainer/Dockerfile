@@ -5,12 +5,12 @@ ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
 ARG GO_VERSION
 ARG PYTHON_VERSION
+ARG NODE_VERSION
+ARG ARCHITECTURE
 
+# Set environment variables
 ENV GIT_USER_NAME=${GIT_USER_NAME}
 ENV GIT_USER_EMAIL=${GIT_USER_EMAIL}
-ENV GO_VERSION=${GO_VERSION}
-ENV PYTHON_VERSION=${PYTHON_VERSION}
-
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
@@ -67,9 +67,9 @@ RUN pyenv install $PYTHON_VERSION && \
 RUN pip install --no-cache-dir --upgrade pip setuptools pre-commit black flake8 debugpy
 
 # Install Go
-RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
-    rm go${GO_VERSION}.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go${GO_VERSION}.linux-${ARCHITECTURE}.tar.gz && \
+    tar -C /usr/local -xzf go${GO_VERSION}.linux-${ARCHITECTURE}.tar.gz && \
+    rm go${GO_VERSION}.linux-${ARCHITECTURE}.tar.gz
 
 # Download and install Source Code Pro from Google Fonts API
 RUN mkdir -p /usr/share/fonts/source-code-pro && \
