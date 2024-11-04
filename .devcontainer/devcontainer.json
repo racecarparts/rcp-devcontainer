@@ -1,10 +1,11 @@
 {
   "name": "rcp-devcontainer",
-  "dockerComposeFile": [
-    "docker-compose.yml"
-  ],
+  "dockerComposeFile": ["docker-compose.yml"],
   "service": "workspace",
   "workspaceFolder": "/workspace",
+  "postCreateCommand": "chmod +x /tmp/post-create-scripts/*.sh && for script in /tmp/post-create-scripts/*.sh; do echo Running $script; $script; done",
+  "remoteUser": "root",
+  // "forwardPorts": [],
   "customizations": {
     "vscode": {
       "settings": {
@@ -12,7 +13,51 @@
         "editor.formatOnSave": true,
         "python.pythonPath": "/root/.pyenv/shims/python3",
         "python.defaultInterpreterPath": "/root/.pyenv/versions/${PYTHON_VERSION}/bin/python",
-        "terminal.integrated.fontFamily": "MesloLGS NF"
+        "terminal.integrated.fontFamily": "MesloLGS NF",
+        "goStructTagAutogen.tagSuggestion": {
+          "json": {
+              "cases": [
+                  "camel",
+                  "snake"
+              ],
+              "options": [
+                  "-",
+                  "omitempty"
+              ]
+          },
+          "bson": {
+              "cases": [
+                  "snake"
+              ],
+              "options": [
+                  "-",
+                  "omitempty"
+              ]
+          },
+          "binding": {
+              "options": [
+                  "required"
+              ]
+          },
+          "validate": {
+            "options": [
+              "required"
+            ]
+          },
+          "env": {
+            "cases": [
+              "uppersnake"
+            ]
+          },
+          "header":{
+            "cases": [
+              "none",
+              "snake",
+              "camel",
+              "uppersnake"
+            ]
+          }
+        }
       },
       "extensions": [
         "eamodio.gitlens",
@@ -21,11 +66,16 @@
         "ms-python.flake8",
         "ms-python.debugger",
         "golang.go",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "ms-python.vscode-pylance",
+        "adpyke.vscode-sql-formatter",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "rangav.vscode-thunder-client",
+        "maxnatchanon.go-struct-tag-autogen",
+        "yzhang.markdown-all-in-one",
+        "editorconfig.editorconfig"
       ]
     }
-  },
-  // "forwardPorts": [],
-  "postCreateCommand": "chmod +x /tmp/post-create-scripts/*.sh && for script in /tmp/post-create-scripts/*.sh; do echo Running $script; $script; done",
-  "remoteUser": "root"
+  }
 }
