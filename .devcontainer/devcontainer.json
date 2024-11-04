@@ -1,11 +1,12 @@
 {
   "name": "rcp-devcontainer",
-  "dockerComposeFile": ["docker-compose.yml"],
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
   "service": "workspace",
   "workspaceFolder": "/workspace",
   "postCreateCommand": "chmod +x /tmp/post-create-scripts/*.sh && for script in /tmp/post-create-scripts/*.sh; do echo Running $script; $script; done",
   "remoteUser": "root",
-  // "forwardPorts": [],
   "customizations": {
     "vscode": {
       "settings": {
@@ -16,28 +17,28 @@
         "terminal.integrated.fontFamily": "MesloLGS NF",
         "goStructTagAutogen.tagSuggestion": {
           "json": {
-              "cases": [
-                  "camel",
-                  "snake"
-              ],
-              "options": [
-                  "-",
-                  "omitempty"
-              ]
+            "cases": [
+              "camel",
+              "snake"
+            ],
+            "options": [
+              "-",
+              "omitempty"
+            ]
           },
           "bson": {
-              "cases": [
-                  "snake"
-              ],
-              "options": [
-                  "-",
-                  "omitempty"
-              ]
+            "cases": [
+              "snake"
+            ],
+            "options": [
+              "-",
+              "omitempty"
+            ]
           },
           "binding": {
-              "options": [
-                  "required"
-              ]
+            "options": [
+              "required"
+            ]
           },
           "validate": {
             "options": [
@@ -49,7 +50,7 @@
               "uppersnake"
             ]
           },
-          "header":{
+          "header": {
             "cases": [
               "none",
               "snake",
