@@ -42,7 +42,9 @@ RUN apk update && apk add --no-cache \
     xz-dev \
     tk-dev \
     nodejs \
-    npm
+    npm \
+    postgresql-dev \
+    libffi
 
 RUN git config --global user.name "$GIT_USER_NAME" \
     && git config --global user.email "$GIT_USER_EMAIL" 
