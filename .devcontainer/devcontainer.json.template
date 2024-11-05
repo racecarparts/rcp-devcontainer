@@ -1,6 +1,6 @@
 {
   "name": "{{TEMPLATE_PROJECT_NAME}}",
-  "dockerComposeFile": "{{TEMPLATE_DOCKER_COMPOSE_FILE_PATH}}",
+  "dockerComposeFile": {{TEMPLATE_DOCKER_COMPOSE_FILE_PATH}},
   "service": "workspace",
   "workspaceFolder": "/workspace",
   "postCreateCommand": "chmod +x /tmp/post-create-scripts/*.sh && for script in /tmp/post-create-scripts/*.sh; do echo Running $script; $script; done",
