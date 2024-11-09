@@ -4,14 +4,12 @@ services:
       context: {{TEMPLATE_BUILD_CONTEXT}}
       dockerfile: .devcontainer/Dockerfile
       args:
-        GIT_USER_NAME: ${GIT_USER_NAME}
-        GIT_USER_EMAIL: ${GIT_USER_EMAIL}
-        GO_VERSION: ${GO_VERSION}
-        PYTHON_VERSION: ${PYTHON_VERSION}
-        ARCHITECTURE: ${ARCHITECTURE}
-    platform: linux/${ARCHITECTURE}
-    env_file:
-      - {{TEMPLATE_DEVCONTAINER_ENV_FILE_LOCATION}}.env
+        GIT_USER_NAME: {{TEMPLATE_GIT_USER_NAME}}
+        GIT_USER_EMAIL: {{TEMPLATE_GIT_USER_EMAIL}}
+        GO_VERSION: {{TEMPLATE_GO_VERSION}}
+        PYTHON_VERSION: {{TEMPLATE_PYTHON_VERSION}}
+        ARCHITECTURE: {{TEMPLATE_ARCHITECTURE}}
+    platform: linux/{{TEMPLATE_ARCHITECTURE}}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
